@@ -3,5 +3,12 @@ public class Main {
 
         System.out.println("Hello world!");
         System.out.println(Runtime.getRuntime().availableProcessors() + " cores available");
+
+        Cron cron = new Cron();
+
+        cron.start();
+        new Searcher("").start();
+        cron.stop();
+        System.out.println("Completed in "+cron.getTime()+"ms.");
     }
 }
