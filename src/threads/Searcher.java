@@ -1,3 +1,5 @@
+package threads;
+
 public class Searcher extends Thread {
     private int fileCount;
 
