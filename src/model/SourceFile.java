@@ -1,9 +1,13 @@
 package model;
 
 public class SourceFile {
+    private String path;
     private int length;
 
-    private String path;
+    public SourceFile(String path, int length){
+        this.path = path;
+        this.length = length;
+    }
 
     public int getLength() {
         return length;
