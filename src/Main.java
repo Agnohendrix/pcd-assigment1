@@ -1,5 +1,8 @@
 import model.SourceFile;
+import shared.BoundedBuffer1;
+import shared.IBoundedBuffer;
 import shared.SourceFileList;
+import threads.LineCounter;
 import threads.Searcher;
 
 import java.io.File;
@@ -20,7 +23,21 @@ public class Main {
 
         s.join();
 
+
         //Once all file found
+        IBoundedBuffer<SourceFile> buffer = new BoundedBuffer1<>(sfl.getItemCount());
+
+        String sources[] = sfl.getItems();
+        System.out.println(sources[sfl.getItemCount() - 1]);
+        for(int i = sfl.getItemCount() - 1; i >= 0; i--){
+            System.out.println(sources[i]);
+            buffer.put(new SourceFile(sources[i], 0));
+
+        }
+
+        int nThreads = 4;
+        for(int i = 0; i < nThreads; i++)
+            new LineCounter(buffer).start();
 
         cron.stop();
         System.out.println("Completed in "+cron.getTime()+"ms.");
