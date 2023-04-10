@@ -31,7 +31,6 @@ public class Searcher extends Thread {
                 //Recursively check nested folders
                 seeFolderContent(fileEntry);
             }
-
         }
     }
 

@@ -19,6 +19,9 @@ public class Main {
         s.start();
 
         s.join();
+
+        //Once all file found
+
         cron.stop();
         System.out.println("Completed in "+cron.getTime()+"ms.");
         System.out.println("List contains " + sfl.getItemCount() + " items");
