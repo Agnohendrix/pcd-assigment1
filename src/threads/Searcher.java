@@ -1,19 +1,18 @@
 package threads;
 
 import model.SourceFile;
-import shared.SourceFileList;
+import shared.IBoundedBuffer;
 
 import java.io.File;
 
 public class Searcher extends Thread {
-    private int fileCount;
 
+    private IBoundedBuffer buffer;
     private File path;
 
-    private SourceFileList sfl;
-    public Searcher(File path, SourceFileList sfl){
+    public Searcher(File path,  IBoundedBuffer buffer){
         this.path = path;
-        this.sfl = sfl;
+        this.buffer = buffer;
     }
 
     public void run(){
@@ -26,7 +25,11 @@ public class Searcher extends Thread {
             if(isJavaFileExtension(fileEntry)){
                 //Add file to sourcefilelist
                 SourceFile sf = new SourceFile(fileEntry.getName(), 1);
-                sfl.add(fileEntry.getName());
+                try {
+                    buffer.put(sf);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             } else if (fileEntry.isDirectory()){
                 //Recursively check nested folders
                 seeFolderContent(fileEntry);

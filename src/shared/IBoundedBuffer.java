@@ -7,4 +7,6 @@ public interface IBoundedBuffer<Item> {
     Item get() throws InterruptedException;
 
     boolean isEmpty();
+
+    int size();
 }

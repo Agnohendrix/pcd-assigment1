@@ -5,19 +5,14 @@ import java.util.LinkedList;
 public class BoundedBuffer1<Item> implements IBoundedBuffer<Item> {
 
     private LinkedList<Item> buffer;
-    private int maxSize;
 
-    public BoundedBuffer1(int size) {
-        buffer = new LinkedList<Item>();
-        maxSize = size;
+    public BoundedBuffer1() {
+        buffer = new LinkedList<>();
     }
 
     public synchronized void put(Item item) throws InterruptedException {
-        while (isFull()) {
-            wait();
-        }
+
         buffer.addLast(item);
-        notifyAll();
     }
 
     public synchronized Item get() throws InterruptedException {
@@ -29,11 +24,9 @@ public class BoundedBuffer1<Item> implements IBoundedBuffer<Item> {
         return item;
     }
 
-    private boolean isFull() {
-        return buffer.size() == maxSize;
-    }
-
     public boolean isEmpty() {
         return buffer.size() == 0;
     }
+
+    public int size(){return buffer.size();}
 }

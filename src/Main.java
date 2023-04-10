@@ -6,6 +6,7 @@ import threads.LineCounter;
 import threads.Searcher;
 
 import java.io.File;
+import java.util.concurrent.CountDownLatch;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
@@ -13,11 +14,13 @@ public class Main {
         System.out.println("Hello world!");
         System.out.println(Runtime.getRuntime().availableProcessors() + " cores available");
 
+        IBoundedBuffer<SourceFile> buffer = new BoundedBuffer1<>();
+
         SourceFileList<SourceFile> sfl = new SourceFileList<>();
 
         Cron cron = new Cron();
         cron.start();
-        Searcher s = new Searcher(new File("./"), sfl);
+        Searcher s = new Searcher(new File("./"), buffer);
 
         s.start();
 
@@ -25,23 +28,22 @@ public class Main {
 
 
         //Once all file found
-        IBoundedBuffer<SourceFile> buffer = new BoundedBuffer1<>(sfl.getItemCount());
 
-        String sources[] = sfl.getItems();
-        System.out.println(sources[sfl.getItemCount() - 1]);
-        for(int i = sfl.getItemCount() - 1; i >= 0; i--){
+       /* for(int i = sfl.getItemCount() - 1; i >= 0; i--){
             System.out.println(sources[i]);
             buffer.put(new SourceFile(sources[i], 0));
 
-        }
-
+        }*/
+        int tot = buffer.size();
         int nThreads = 4;
+        CountDownLatch latch = new CountDownLatch(nThreads);
         for(int i = 0; i < nThreads; i++)
-            new LineCounter(buffer).start();
+            new LineCounter(buffer, latch).start();
 
+        latch.await();
         cron.stop();
         System.out.println("Completed in "+cron.getTime()+"ms.");
-        System.out.println("List contains " + sfl.getItemCount() + " items");
+        System.out.println("List contains " + tot + " items");
 
     }
 }
