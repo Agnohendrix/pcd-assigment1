@@ -24,12 +24,11 @@ public class Searcher extends Thread {
     public void seeFolderContent(File path){
         for(final File fileEntry: path.listFiles()){
             if(isJavaFileExtension(fileEntry)){
-                System.out.println("Is " + fileEntry + " java? " + isJavaFileExtension(fileEntry));
-                //Spawn SourceFileAnalyzer
-                //...
+                //Add file to sourcefilelist
                 SourceFile sf = new SourceFile(fileEntry.getName(), 1);
                 sfl.add(fileEntry.getName());
             } else if (fileEntry.isDirectory()){
+                //Recursively check nested folders
                 seeFolderContent(fileEntry);
             }
 

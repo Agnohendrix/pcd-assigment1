@@ -22,5 +22,6 @@ public class Main {
         cron.stop();
         System.out.println("Completed in "+cron.getTime()+"ms.");
         System.out.println("List contains " + sfl.getItemCount() + " items");
+
     }
 }
