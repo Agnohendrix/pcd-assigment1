@@ -18,10 +18,12 @@ public class CounterPrinter extends Thread {
             synchronized (scount){
                 //Updates correctly, need to fix intervals
                 int[] scounters = scount.getAllCounters();
+                //System.out.print("Distribution: ");
                 for (int i = 0; i < scounters.length; i++){
-                    //System.out.println("CounterThread array["+i+"] value: " + scounters[i]);
+                    //System.out.print("CounterThread array["+i+"] value: " + scounters[i]);
+                    //System.out.print(" " + scounters[i] + " ");
                 }
-
+                //System.out.println();
             }
         }
 
