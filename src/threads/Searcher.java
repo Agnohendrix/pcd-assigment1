@@ -24,7 +24,7 @@ public class Searcher extends Thread {
         for(final File fileEntry: path.listFiles()){
             if(isJavaFileExtension(fileEntry)){
                 //Add file to sourcefilelist
-                SourceFile sf = new SourceFile(fileEntry.getName(), 1);
+                SourceFile sf = new SourceFile(path.getPath() + '\\' + fileEntry.getName(), 1);
                 try {
                     buffer.put(sf);
                 } catch (InterruptedException e) {
@@ -32,6 +32,7 @@ public class Searcher extends Thread {
                 }
             } else if (fileEntry.isDirectory()){
                 //Recursively check nested folders
+                System.out.println(fileEntry);
                 seeFolderContent(fileEntry);
             }
         }

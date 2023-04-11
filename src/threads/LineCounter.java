@@ -5,6 +5,10 @@ import shared.Counter;
 import shared.IBoundedBuffer;
 import shared.SourceFileList;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -26,11 +30,11 @@ public class LineCounter extends Thread {
         while (!buffer.isEmpty()){
             try {
                 SourceFile sf = (SourceFile) buffer.get();
+                sf.setLength(countLinesNew(sf.getPath()));
                 System.out.println(this.getName() + " " + sf.getPath() + " " + sf.getLength());
-
                 sfl.add(sf);
                 counter.inc();
-            } catch (InterruptedException ex){
+            } catch (InterruptedException | IOException ex){
                 ex.printStackTrace();
             }
         }
@@ -38,8 +42,38 @@ public class LineCounter extends Thread {
         System.out.println(this.getName() + "Ended buffer");
     }
 
-    private int countLines(){
-        return 0;
+    private static int countLinesNew(String filename) throws IOException {
+        InputStream is = new BufferedInputStream(new FileInputStream(filename));
+        try {
+            byte[] c = new byte[1024];
+            int readChars = is.read(c);
+            if (readChars == -1) {
+                // bail out if nothing to read
+                return 0;
+            }
+            // make it easy for the optimizer to tune this loop
+            int count = 0;
+            while (readChars == 1024) {
+                for (int i=0; i<1024;) {
+                    if (c[i++] == '\n') {
+                        ++count;
+                    }
+                }
+                readChars = is.read(c);
+            }
+            // count remaining characters
+            while (readChars != -1) {
+                for (int i=0; i<readChars; ++i) {
+                    if (c[i] == '\n') {
+                        ++count;
+                    }
+                }
+                readChars = is.read(c);
+            }
+            return count == 0 ? 1 : count;
+        } finally {
+            is.close();
+        }
     }
 
 }
