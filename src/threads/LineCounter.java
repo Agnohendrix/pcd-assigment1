@@ -4,6 +4,7 @@ import model.SourceFile;
 import shared.Counter;
 import shared.IBoundedBuffer;
 import shared.SourceFileList;
+import shared.SubdividedCounter;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
@@ -18,12 +19,14 @@ public class LineCounter extends Thread {
     private CountDownLatch latch;
 
     private Counter counter;
+    private SubdividedCounter scount;
     private List sfl;
-    public LineCounter(IBoundedBuffer buffer, CountDownLatch latch, List sfl, Counter counter){
+    public LineCounter(IBoundedBuffer buffer, CountDownLatch latch, List sfl, Counter counter, SubdividedCounter scount){
         this.buffer = buffer;
         this.latch = latch;
         this.sfl = sfl;
         this.counter = counter;
+        this.scount = scount;
     }
 
     public synchronized void run(){
@@ -34,6 +37,8 @@ public class LineCounter extends Thread {
                 System.out.println(this.getName() + " " + sf.getPath() + " " + sf.getLength());
                 sfl.add(sf);
                 counter.inc();
+                scount.inc(sf.getLength());
+
             } catch (InterruptedException | IOException ex){
                 ex.printStackTrace();
             }

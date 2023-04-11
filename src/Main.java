@@ -44,11 +44,12 @@ public class Main {
         //Once all file found
         //Counter gets updated whenever a Thread elaborates a new file and continuously prints
         Counter counter = new Counter();
-        new CounterPrinter(counter, (BoundedBuffer1) buffer).start();
+        SubdividedCounter scount = new SubdividedCounter(nIntervals, lMax);
+        new CounterPrinter(counter, (BoundedBuffer1) buffer, scount).start();
         int nThreads = 2;
         CountDownLatch latch = new CountDownLatch(nThreads);
         for(int i = 0; i < nThreads; i++)
-            new LineCounter(buffer, latch, sfl, counter).start();
+            new LineCounter(buffer, latch, sfl, counter, scount).start();
 
         new ListPrinter(sfl, (BoundedBuffer1) buffer, counter).start();
         latch.await();
@@ -56,5 +57,10 @@ public class Main {
         cron.stop();
         System.out.println("Completed in "+cron.getTime()+"ms.");
         System.out.println("List contains " + sfl.size() + " items" + counter.getValue());
+        int[] scounter = scount.getAllCounters();
+        for(int i=0; i< scounter.length; i++){
+            System.out.println("Counters " + scounter[i]);
+        }
+
     }
 }

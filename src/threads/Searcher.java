@@ -32,7 +32,6 @@ public class Searcher extends Thread {
                 }
             } else if (fileEntry.isDirectory()){
                 //Recursively check nested folders
-                System.out.println(fileEntry);
                 seeFolderContent(fileEntry);
             }
         }
