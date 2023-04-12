@@ -6,6 +6,8 @@ import threads.Searcher;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -40,7 +42,7 @@ public class Main {
 
         s.join();
 
-
+        FileList fl = new FileList(nFiles);
         //Once all file found
         //Counter gets updated whenever a Thread elaborates a new file and continuously prints
         Counter counter = new Counter();
@@ -49,18 +51,32 @@ public class Main {
         int nThreads = 4;
         CountDownLatch latch = new CountDownLatch(nThreads);
         for(int i = 0; i < nThreads; i++)
-            new LineCounter(buffer, latch, sfl, counter, scount).start();
+            new LineCounter(buffer, latch, sfl, counter, scount, fl).start();
 
-        new ListPrinter(sfl, (BoundedBuffer1) buffer, counter).start();
+        new ListPrinter(sfl, (BoundedBuffer1) buffer, counter, fl).start();
         latch.await();
 
         cron.stop();
         System.out.println("Completed in "+cron.getTime()+"ms.");
-        System.out.println("List contains " + sfl.size() + " items" + counter.getValue());
+        System.out.println("List contains " + sfl.size() + " items" + counter.getValue() + "list " + fl.get().size());
+        String[] last = fl.get().stream()
+                .sorted(Comparator.comparingInt(SourceFile::getLength))
+                .map(f -> {
+                    try {
+                        return f.getPath() + " -> " + f.getLength();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .toArray(String[]::new);
+        for(int i=0; i< last.length; i++){
+            System.out.println("Longest " + last[i]);
+        }
         int[] scounter = scount.getAllCounters();
         for(int i=0; i< scounter.length; i++){
             System.out.println("Counters " + scounter[i]);
         }
+
 
     }
 }

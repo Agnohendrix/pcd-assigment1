@@ -15,7 +15,7 @@ public class SourceFile {
         this.mutex = new ReentrantLock();
     }
 
-    public int getLength() throws InterruptedException {
+    public int getLength()  {
         try {
             mutex.lock();
             return length;
