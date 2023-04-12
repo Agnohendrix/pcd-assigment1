@@ -57,8 +57,7 @@ public class Main {
         latch.await();
 
         cron.stop();
-        System.out.println("Completed in "+cron.getTime()+"ms.");
-        System.out.println("List contains " + sfl.size() + " items" + counter.getValue() + "list " + fl.get().size());
+
         String[] last = fl.get().stream()
                 .sorted(Comparator.comparingInt(SourceFile::getLength))
                 .map(f -> {
@@ -69,14 +68,16 @@ public class Main {
                     }
                 })
                 .toArray(String[]::new);
-        for(int i=0; i< last.length; i++){
-            System.out.println("Longest " + last[i]);
+        for(int i=last.length - 1; i >= 0; i--){
+            System.out.println("Longest " + i + ": " + last[i]);
         }
         int[] scounter = scount.getAllCounters();
         for(int i=0; i< scounter.length; i++){
-            System.out.println("Counters " + scounter[i]);
+            System.out.println("Counters "  + scounter[i]);
         }
 
+        System.out.println("Completed in "+cron.getTime()+"ms.");
+        System.out.println("List contains " + sfl.size() + " items");
 
     }
 }

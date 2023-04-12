@@ -34,17 +34,8 @@ public class ListPrinter extends Thread {
                         }
                     })
                     .toArray(String[]::new);
-            System.out.println("Longest n files: " + Arrays.stream(list).count());
-           /* if(sfl.size() > 0){
-                try {
-
-                    SourceFile lastFile = (SourceFile) sfl.get(sfl.size() - 1);
-                    System.out.println("sfl thread: " + lastFile.getPath() + " counter: " + counter.getValue());
-
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }*/
+                if(list.length > 0)
+                    System.out.println("Longest: " + list[list.length-1] + " " + list[0]);
         }
     }
 
