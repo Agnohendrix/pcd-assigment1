@@ -70,6 +70,19 @@ public class GUI extends JFrame
         p2.add(p0);
         p2.add(Box.createVerticalStrut(10));
         p2.add(p1);
+
+        JLabel jl1 = new JLabel(nFiles + " longest files:");
+        p2.add(jl1);
+        JTextField jtf1 = new JTextField("0");
+        JTextField jtf2 = new JTextField("0");
+        JTextField jtf3 = new JTextField("0");
+        JTextField jtf4 = new JTextField("0");
+        JTextField jtf5 = new JTextField("0");
+        p2.add(jtf1);
+        p2.add(jtf2);
+        p2.add(jtf3);
+        p2.add(jtf4);
+        p2.add(jtf5);
         int intervalSize = lMax / (nIntervals - 1);
         for(int i=0; i < nIntervals; i++){
 
@@ -77,9 +90,14 @@ public class GUI extends JFrame
             if (i+1 == nIntervals ){
                 s = "[ " + String.valueOf(i * intervalSize) + " , " + "- ]";
             }
-            p2.add(new JLabel(s));
+            panel.add(new JLabel(s));
+            JTextField jtf = new JTextField("0");
+            jtf.setName("jtf-" + i);
+            panel.add(jtf);
         }
+
         panel.add(p2);
+
         cp.add(panel);
 
         addWindowListener(new WindowAdapter(){
