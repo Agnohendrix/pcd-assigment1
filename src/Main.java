@@ -25,6 +25,7 @@ public class Main {
         int nFiles = Integer.parseInt(args[1]);
         int nIntervals = Integer.parseInt(args[2]);
         int lMax = Integer.parseInt(args[3]);
+        new GUI(d.getPath(), nFiles, nIntervals, lMax).display();
 
 
         System.out.println("Hello world!");
