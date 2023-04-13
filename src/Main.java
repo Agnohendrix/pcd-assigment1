@@ -1,3 +1,4 @@
+import gui.GUI;
 import model.SourceFile;
 import shared.*;
 import threads.LineCounter;
@@ -6,7 +7,6 @@ import threads.Searcher;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -25,10 +25,8 @@ public class Main {
         int nFiles = Integer.parseInt(args[1]);
         int nIntervals = Integer.parseInt(args[2]);
         int lMax = Integer.parseInt(args[3]);
-        new GUI(d.getPath(), nFiles, nIntervals, lMax).display();
-
-
-        System.out.println("Hello world!");
+        GUI gui = new GUI(d.getPath(), nFiles, nIntervals, lMax);
+        gui.display();
         System.out.println(Runtime.getRuntime().availableProcessors() + " cores available");
 
         IBoundedBuffer<SourceFile> buffer = new BoundedBuffer1<>();
@@ -48,13 +46,13 @@ public class Main {
         //Counter gets updated whenever a Thread elaborates a new file and continuously prints
         Counter counter = new Counter();
         SubdividedCounter scount = new SubdividedCounter(nIntervals, lMax);
-        new CounterPrinter(counter, (BoundedBuffer1) buffer, scount).start();
+        new CounterPrinter((BoundedBuffer1) buffer, scount, gui).start();
         int nThreads = 4;
         CountDownLatch latch = new CountDownLatch(nThreads);
         for(int i = 0; i < nThreads; i++)
             new LineCounter(buffer, latch, sfl, counter, scount, fl).start();
 
-        new ListPrinter(sfl, (BoundedBuffer1) buffer, counter, fl).start();
+        new ListPrinter(sfl, (BoundedBuffer1) buffer, counter, fl, gui).start();
         latch.await();
 
         cron.stop();

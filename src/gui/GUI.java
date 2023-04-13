@@ -1,8 +1,12 @@
+package gui;
+
 import shared.Counter;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GUI extends JFrame
         implements ActionListener {
@@ -14,8 +18,12 @@ public class GUI extends JFrame
     private JLabel displayLabel;
     private JLabel nLongestFilesLabel;
     private JTextField nLongestFilesTF;
+
+    private List<JTextField> nLongestFilesDisplay;
     private JLabel nIntervalsLabel;
     private JTextField nIntervalsTF;
+
+    private List<JTextField> nIntervalsDisplay;
     private JLabel lMaxLabel;
     private JTextField lMaxTF;
 
@@ -24,7 +32,7 @@ public class GUI extends JFrame
 
     private String path;
     public GUI(String path, int nFiles, int nIntervals, int lMax){
-        setTitle("Assignment 1 GUI");
+        setTitle("Assignment 1 gui.GUI");
         setSize(700,300);
 
         display = new JTextField(10);
@@ -73,17 +81,17 @@ public class GUI extends JFrame
 
         JLabel jl1 = new JLabel(nFiles + " longest files:");
         p2.add(jl1);
-        JTextField jtf1 = new JTextField("0");
-        JTextField jtf2 = new JTextField("0");
-        JTextField jtf3 = new JTextField("0");
-        JTextField jtf4 = new JTextField("0");
-        JTextField jtf5 = new JTextField("0");
-        p2.add(jtf1);
-        p2.add(jtf2);
-        p2.add(jtf3);
-        p2.add(jtf4);
-        p2.add(jtf5);
+        nLongestFilesDisplay = new ArrayList<>(nFiles);
+        for(int i = 0; i< nFiles; i++){
+            JTextField jtf = new JTextField("0");
+            jtf.setName("longest-"+i);
+            jtf.setEditable(false);
+            nLongestFilesDisplay.add(jtf);
+            p2.add(nLongestFilesDisplay.get(i));
+        }
+
         int intervalSize = lMax / (nIntervals - 1);
+        nIntervalsDisplay = new ArrayList<>(nIntervals);
         for(int i=0; i < nIntervals; i++){
 
             String s ="[ " + String.valueOf(i * intervalSize) + " , " + String.valueOf((i + 1) * intervalSize) + " ]";
@@ -93,7 +101,9 @@ public class GUI extends JFrame
             panel.add(new JLabel(s));
             JTextField jtf = new JTextField("0");
             jtf.setName("jtf-" + i);
-            panel.add(jtf);
+            jtf.setEditable(false);
+            nIntervalsDisplay.add(jtf);
+            panel.add(nIntervalsDisplay.get(i));
         }
 
         panel.add(p2);
@@ -137,6 +147,22 @@ public class GUI extends JFrame
             display.setText(""+ ev.getValue());
         });
     }*/
+
+    public void updateSubdivideCountValue(int[] values) {
+        SwingUtilities.invokeLater(()-> {
+             for(int i=0; i<values.length; i++){
+                 nIntervalsDisplay.get(i).setText(String.valueOf(values[i]));
+             }
+        });
+    }
+
+    public void updateLongestFilesValue(String[] values){
+        SwingUtilities.invokeLater(()-> {
+            for(int i=0; i< values.length; i++){
+                nLongestFilesDisplay.get(i).setText(values[i]);
+            }
+        });
+    }
 
     public void display() {
         javax.swing.SwingUtilities.invokeLater(() -> {

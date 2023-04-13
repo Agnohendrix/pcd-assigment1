@@ -39,7 +39,7 @@ public class LineCounter extends Thread {
                 counter.inc();
                 scount.inc(sf.getLength());
                 fl.put(sf);
-                Thread.sleep(10);
+                Thread.sleep(100);
             } catch (InterruptedException | IOException ex){
                 ex.printStackTrace();
             }
