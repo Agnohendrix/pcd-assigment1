@@ -7,11 +7,11 @@ import java.util.Comparator;
 import gui.GUI;
 
 public class ListPrinter extends Thread {
-    private BoundedBuffer1 buffer;
+    private final BoundedBuffer1 buffer;
 
-    private FileList fl;
+    private final FileList fl;
 
-    private GUI gui;
+    private final GUI gui;
 
     public ListPrinter(BoundedBuffer1 buffer, FileList fl, GUI gui){
         this.buffer = buffer;

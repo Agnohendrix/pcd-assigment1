@@ -5,9 +5,9 @@ import gui.GUI;
 public class CounterPrinter extends Thread {
 
 
-    private SubdividedCounter scount;
-    private BoundedBuffer1 buffer;
-    private GUI gui;
+    private final SubdividedCounter scount;
+    private final BoundedBuffer1 buffer;
+    private final GUI gui;
     public CounterPrinter(BoundedBuffer1 buffer, SubdividedCounter scount, GUI gui){
         this.buffer = buffer;
         this.scount = scount;

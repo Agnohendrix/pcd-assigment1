@@ -9,39 +9,32 @@ import java.util.List;
 public class GUI extends JFrame
         implements ActionListener {
 
-    private JButton start;
-    private JButton stop;
-    private JButton reset;
-    private JTextField display;
-    private JLabel displayLabel;
-    private JLabel nLongestFilesLabel;
-    private JTextField nLongestFilesTF;
+    private final JButton start;
+    private final JButton stop;
+    private final JButton reset;
 
-    private List<JTextField> nLongestFilesDisplay;
-    private JLabel nIntervalsLabel;
-    private JTextField nIntervalsTF;
+    private final List<JTextField> nLongestFilesDisplay;
 
-    private List<JTextField> nIntervalsDisplay;
-    private JLabel lMaxLabel;
-    private JTextField lMaxTF;
+    private final List<JTextField> nIntervalsDisplay;
+
     public GUI(String path, int nFiles, int nIntervals, int lMax){
         setTitle("Assignment 1 gui.GUI");
         setSize(700,300);
 
-        display = new JTextField(10);
-        displayLabel = new JLabel("Directory:");
+        JTextField display = new JTextField(10);
+        JLabel displayLabel = new JLabel("Directory:");
         display.setEditable(true);
         display.setText(""+ path);
-        nLongestFilesLabel = new JLabel("N° File più lunghi");
-        nLongestFilesTF = new JTextField(2);
+        JLabel nLongestFilesLabel = new JLabel("N° File più lunghi");
+        JTextField nLongestFilesTF = new JTextField(2);
         nLongestFilesTF.setText(String.valueOf(nFiles));
         nLongestFilesTF.setEditable(true);
-        nIntervalsLabel = new JLabel("N° Intervalli");
-        nIntervalsTF = new JTextField(2);
+        JLabel nIntervalsLabel = new JLabel("N° Intervalli");
+        JTextField nIntervalsTF = new JTextField(2);
         nIntervalsTF.setText(String.valueOf(nIntervals));
         nIntervalsTF.setEditable(true);
-        lMaxLabel = new JLabel("Massima lunghezza");
-        lMaxTF = new JTextField(2);
+        JLabel lMaxLabel = new JLabel("Massima lunghezza");
+        JTextField lMaxTF = new JTextField(2);
         lMaxTF.setText(String.valueOf(lMax));
         lMaxTF.setEditable(true);
         start = new JButton("start");
@@ -129,7 +122,6 @@ public class GUI extends JFrame
             start.setEnabled(true);
             stop.setEnabled(false);
             reset.setEnabled(true);
-        } else if (src == reset){
         }
     }
 

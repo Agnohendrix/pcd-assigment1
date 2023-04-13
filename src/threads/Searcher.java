@@ -4,11 +4,12 @@ import model.SourceFile;
 import shared.IBoundedBuffer;
 
 import java.io.File;
+import java.util.Objects;
 
 public class Searcher extends Thread {
 
-    private IBoundedBuffer buffer;
-    private File path;
+    private final IBoundedBuffer buffer;
+    private final File path;
 
     public Searcher(File path,  IBoundedBuffer buffer){
         this.path = path;
@@ -21,7 +22,7 @@ public class Searcher extends Thread {
     }
 
     public void seeFolderContent(File path){
-        for(final File fileEntry: path.listFiles()){
+        for(final File fileEntry: Objects.requireNonNull(path.listFiles())){
             if(isJavaFileExtension(fileEntry)){
                 //Add file to sourcefilelist
                 SourceFile sf = new SourceFile(path.getPath() + '\\' + fileEntry.getName(), 1);

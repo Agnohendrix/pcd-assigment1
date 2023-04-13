@@ -1,9 +1,9 @@
 package shared;
 
 public class SubdividedCounter extends Counter {
-    private int nIntervals;
-    private int nLines;
-    private int[] counters;
+    private final int nIntervals;
+    private final int nLines;
+    private final int[] counters;
     public SubdividedCounter(int nIntervals, int nLines){
         this.nIntervals = nIntervals;
         this.nLines = nLines;
