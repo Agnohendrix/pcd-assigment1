@@ -1,7 +1,5 @@
 package gui;
 
-import shared.Counter;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -26,11 +24,6 @@ public class GUI extends JFrame
     private List<JTextField> nIntervalsDisplay;
     private JLabel lMaxLabel;
     private JTextField lMaxTF;
-
-    private ModuleLayer.Controller controller;
-    private Counter counter;
-
-    private String path;
     public GUI(String path, int nFiles, int nIntervals, int lMax){
         setTitle("Assignment 1 gui.GUI");
         setSize(700,300);
@@ -94,9 +87,9 @@ public class GUI extends JFrame
         nIntervalsDisplay = new ArrayList<>(nIntervals);
         for(int i=0; i < nIntervals; i++){
 
-            String s ="[ " + String.valueOf(i * intervalSize) + " , " + String.valueOf((i + 1) * intervalSize) + " ]";
+            String s ="[ " + i * intervalSize + " , " + (i + 1) * intervalSize + " ]";
             if (i+1 == nIntervals ){
-                s = "[ " + String.valueOf(i * intervalSize) + " , " + "- ]";
+                s = "[ " + i * intervalSize + " , " + "- ]";
             }
             panel.add(new JLabel(s));
             JTextField jtf = new JTextField("0");
@@ -122,7 +115,6 @@ public class GUI extends JFrame
         start.addActionListener(this);
         stop.addActionListener(this);
         reset.addActionListener(this);
-        //counter.addListener(this);
     }
 
     public void actionPerformed(ActionEvent ev){
@@ -138,15 +130,8 @@ public class GUI extends JFrame
             stop.setEnabled(false);
             reset.setEnabled(true);
         } else if (src == reset){
-            //controller.notifyReset();
         }
     }
-
-    /*public void counterChanged(final CounterEvent ev){
-        SwingUtilities.invokeLater(()-> {
-            display.setText(""+ ev.getValue());
-        });
-    }*/
 
     public void updateSubdivideCountValue(int[] values) {
         SwingUtilities.invokeLater(()-> {

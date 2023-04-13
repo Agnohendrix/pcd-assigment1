@@ -35,7 +35,7 @@ public class Main {
 
         Cron cron = new Cron();
         cron.start();
-        Searcher s = new Searcher(new File("./"), buffer);
+        Searcher s = new Searcher(d, buffer);
 
         s.start();
 
@@ -52,7 +52,7 @@ public class Main {
         for(int i = 0; i < nThreads; i++)
             new LineCounter(buffer, latch, sfl, counter, scount, fl).start();
 
-        new ListPrinter(sfl, (BoundedBuffer1) buffer, counter, fl, gui).start();
+        new ListPrinter((BoundedBuffer1) buffer, fl, gui).start();
         latch.await();
 
         cron.stop();
@@ -71,8 +71,8 @@ public class Main {
             System.out.println("Longest " + i + ": " + last[i]);
         }
         int[] scounter = scount.getAllCounters();
-        for(int i=0; i< scounter.length; i++){
-            System.out.println("Counters "  + scounter[i]);
+        for (int j : scounter) {
+            System.out.println("Counters " + j);
         }
 
         System.out.println("Completed in "+cron.getTime()+"ms.");
