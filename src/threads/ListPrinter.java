@@ -31,7 +31,7 @@ public class ListPrinter extends Thread {
                     })
                     .toArray(String[]::new);
                 if(list.length > 0)
-                    System.out.println("Longest: " + list[list.length-1] + " " + list[0]);
+                    //System.out.println("Longest: " + list[list.length-1] + " " + list[0]);
                 if(list.length > 0)
                     gui.updateLongestFilesValue(list);
         }

@@ -47,7 +47,7 @@ public class Main {
         Counter counter = new Counter();
         SubdividedCounter scount = new SubdividedCounter(nIntervals, lMax);
         new CounterPrinter((BoundedBuffer1) buffer, scount, gui).start();
-        int nThreads = 4;
+        int nThreads = 8;
         CountDownLatch latch = new CountDownLatch(nThreads);
         for(int i = 0; i < nThreads; i++)
             new LineCounter(buffer, latch, sfl, counter, scount, fl).start();

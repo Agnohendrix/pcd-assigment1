@@ -85,7 +85,7 @@ public class GUI extends JFrame
                 s = "[ " + i * intervalSize + " , " + "- ]";
             }
             panel.add(new JLabel(s));
-            JTextField jtf = new JTextField("0");
+            JTextField jtf = new JTextField(3);
             jtf.setName("jtf-" + i);
             jtf.setEditable(false);
             nIntervalsDisplay.add(jtf);
